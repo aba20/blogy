@@ -13,8 +13,16 @@ const articleSchema = new mongoose.Schema({
     timestamps:true,
 });
 
-// Compile our Modle Based on the Schema
-const Article = mongoose.model('Article', articleSchema);
+// Define Article Schema
+const commentSchema = new mongoose.Schema({
+    replies: String
+}, {
+    timestamps: true 
+});
 
-// Export our Model for the use
-module.exports = Article;
+// Compile our Modle Based on the Schemas
+const Article = mongoose.model('Article', articleSchema);
+const Comment = mongoose.model('Comment', commentSchema);
+
+// Export our Models for the use
+module.exports = {Article, Comment};

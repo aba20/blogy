@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 // Require Route Files
 const indexRouter = require('./app/routes/index');
 const articlesRouter = require('./app/routes/articles');
+const commentsRouter = require('./app/routes/comments');
 // Require DB Configuration File
 const db = require('./config/db');
 // Establish Database Connection
@@ -25,6 +26,7 @@ app.use(express.json());
 // Mount imported Routers
 app.use(indexRouter);
 app.use(articlesRouter);
+app.use(commentsRouter);
 // Start the server to listen for requests on a given port
 app.listen(port, () => {
   console.log(`blogy is listening on port ${port}`);
