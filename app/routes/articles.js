@@ -31,7 +31,31 @@ router.get('/api/articles', (req, res) => {
 * URI:          /api/articles/:id
 * Description:  Get An Article by Article ID
 */
-
+router.get('/api/articles/:id', (req, res) => {
+    Article.findById(req.params.id)
+    .then((article) => {
+        if(article) {
+            // pass the result if Mongoose's `.get` method to the next `.then`
+            res.status(200).json({article: Article})
+        } else {
+            // if we couldn't find a document with the mathcing ID
+            res.status(404).json({
+                error: {
+                    name: 'DocumentNotFoundError',
+                    message: 'The provided ID doesn\'t match any documents'
+                }
+            });
+        }
+    })
+    .then(()=>{
+        // If the deletion succeeded, return 204 and no JSON
+        res.status(204).end();
+    })
+    // Catch any errors that might occur
+    .catch((error) => {
+        res.status(500).json({error: error});
+    })
+});
 
 /**
  * Action:      CREATE
@@ -59,6 +83,33 @@ router.post('/api/articles', (req, res) => {
 * URI:          /api/articles/:id
 * Description:  Update An Article by Article ID
  */
+
+router.patch('/api/articles/:id', (req, res) => {
+    Article.findById(req.params.id)
+    .then((article) => {
+        if(article) {
+            // pass the result if Mongoose's `.patch` method to the next `.then`
+            return article.updateOne();
+        } else {
+            // if we couldn't find a document with the mathcing ID
+            res.status(404).json({
+                error: {
+                    name: 'DocumentNotFoundError',
+                    message: 'The provided ID doesn\'t match any documents'
+                }
+            });
+        }
+    })
+    .then(()=>{
+        // If the deletion succeeded, return 204 and no JSON
+        res.status(204).end();
+    })
+    // Catch any errors that might occur
+    .catch((error) => {
+        res.status(500).json({error: error});
+    })
+});
+
 
 
 /**
